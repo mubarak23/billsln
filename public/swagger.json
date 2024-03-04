@@ -1,0 +1,128 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IUrlShortler": {
+				"properties": {
+					"shortUrl": {
+						"type": "string"
+					},
+					"longUrl": {
+						"type": "string"
+					},
+					"uniqueCode": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"shortUrl",
+					"longUrl",
+					"uniqueCode"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DetailedError": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"standardizedErrorCode": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message",
+					"standardizedErrorCode"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IServerResponse_IUrlShortler_": {
+				"properties": {
+					"status": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/IUrlShortler"
+					},
+					"error": {
+						"type": "string"
+					},
+					"errors": {
+						"items": {
+							"$ref": "#/components/schemas/DetailedError"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"jwt": {
+				"type": "apiKey",
+				"name": "x-access-token",
+				"in": "header"
+			}
+		}
+	},
+	"info": {
+		"title": "support-backend",
+		"version": "1.0.0",
+		"description": "Support Service Backend",
+		"contact": {
+			"name": "Mubarak Aminu"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/api/url/{uniqueCode}": {
+			"get": {
+				"operationId": "HandleFetchUrlDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IServerResponse_IUrlShortler_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"URL"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "uniqueCode",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
