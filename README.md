@@ -1,7 +1,7 @@
 # BillLN Backend Service
 
 # Context
-- Use yoour sats (smallest unit of bitcoin) to pay for bills such as mobile data, airtime and powers vending
+- Use your sats (smallest unit of bitcoin) to pay for bills such as mobile data, airtime and powers vending
 
 # Technologies
 - Alby wallet APIs
