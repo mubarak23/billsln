@@ -1,4 +1,14 @@
-# Support Service
+# BillLN Backend Service
+
+# Context
+- Use yoour sats (smallest unit of bitcoin) to pay for bills such as mobile data, airtime and powers vending
+
+# Technologies
+- Alby wallet APIs
+- AfricanTalking APIs
+- Nodejs 
+- TypeScript
+ 
 
 
 # How to run for local development
@@ -11,7 +21,6 @@
 ```npm run localdev```
 
 
-# Context
 
 
 
