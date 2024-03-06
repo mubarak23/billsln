@@ -20,6 +20,8 @@ export enum ServiceTransactionColumns {
   PHONE_NUMBER = "phone_number",
   METER_NUMBER = "meter_number",
   DESCRIPTION = "description",
+  REFERENCE = "reference",
+  STATUS = "status",
   INVOICE_RESPONSE = "invoice_response", 
   IS_SOFT_DELETED = "is_soft_delete"
 }

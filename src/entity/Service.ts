@@ -14,7 +14,6 @@ export class Services extends DefualtEntity {
   @Column({ name: ServiceColumns.NAME, nullable: false })
   name: string;
 
-
   @Column({
     type: "boolean",
     name: ServiceColumns.IS_SOFT_DELETED,
@@ -23,7 +22,7 @@ export class Services extends DefualtEntity {
   })
   isSoftDeleted: boolean;
 
-  initialize(name: string){
+  initializeNewService(name: string){
     const now = utcNow();
     this.uuid = uuidv4();
     this.name = name; 

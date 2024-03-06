@@ -1,5 +1,6 @@
 import { Column, Entity } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { TransactionStatuses } from "../enums/Statuses";
 import { ServiceTransactionColumns } from "../enums/TableColumns";
 import Tables from "../enums/Tables";
 import { utcNow } from "../utils/core";
@@ -23,8 +24,13 @@ export class ServiceTransactions extends DefualtEntity {
   @Column({ name: ServiceTransactionColumns.PROVIDER, nullable: false })
   provider: string;
 
+  @Column({ name: ServiceTransactionColumns.REFERENCE, nullable: false})
+  reference: string;
+
   @Column({ name: ServiceTransactionColumns.DESCRIPTION, nullable: true})
   description: string;
+
+
 
   @Column({ name: ServiceTransactionColumns.PAYER_NAME, nullable: true})
   payerName: string;
@@ -44,6 +50,9 @@ export class ServiceTransactions extends DefualtEntity {
   @Column({type: 'json', name: ServiceTransactionColumns.INVOICE_RESPONSE, nullable: true })
   invoiceResponse: object
 
+  @Column({ name: ServiceTransactionColumns.STATUS, nullable: true, default: TransactionStatuses.CREATED})
+  status: TransactionStatuses;
+
   @Column({
     type: "boolean",
     name: ServiceTransactionColumns.IS_SOFT_DELETED,
@@ -53,13 +62,15 @@ export class ServiceTransactions extends DefualtEntity {
   isSoftDeleted: boolean;
 
   initialize(amount: number, satsAmount: number, serviceId: number, 
-    provider: string, description: string, payerName: string, payerEmail: string){
+    provider: string, description: string, payerName: string, payerEmail: string,
+    reference: string){
     const now = utcNow();
     this.uuid = uuidv4();
     this.serviceId = serviceId;
     this.amount = amount;
     this.satsAmount = satsAmount;
     this.description = description;
+    this.reference = reference;
     this.provider = provider;
     this.payerName = payerName;
     this.payerEmail = payerEmail;
