@@ -1,0 +1,25 @@
+export interface InvoiceData {
+  amount: number,
+  currency: string,
+  comment: string,
+  memo: string,
+  description?: string | null,
+  descriptionHash: string,
+  identifier: string,
+  expiry: number,
+  keySendMessage?: string | null,
+  createdAt: string,
+  creationDate: number,
+  payerName: string,
+  preImage: string,
+  paymentHash: string,
+  paymentRequest: string,
+  payerPubkey?: string | null,
+  rHashStr: string,
+  settled: boolean,
+  state: string,
+  settledAt: string,
+  type: string,
+  value: number
+}
+
