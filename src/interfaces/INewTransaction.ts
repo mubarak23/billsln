@@ -1,10 +1,10 @@
 export interface INewTransaction {
   serviceId: number,
-  proovider: string,
+  provider: string,
   amount: number,
   payerName: string,
   payerEmail: string,
-  description: string,
+  description?: string | null,
   phoneNumber?: string | null,
   meterNumber?: string | null,
 }

@@ -1,5 +1,7 @@
 
 import axios, { AxiosResponse } from "axios"
+import { getFreshConnection } from "../db"
+import { ServiceTransactions } from "../entity/ServiceTransaction"
 import { IInvoiceData } from "../interfaces/IInvoiceData"
 import { IInvoiceResponseData } from "../interfaces/IInvoiceResponseData"
 import { InvoiceData } from "../interfaces/InvoiceData"
@@ -9,8 +11,9 @@ import { ServerError, UnprocessableEntityError } from "../utils/error-response-t
 const ALBY_TOKEN = process.env.ALBY_TOKEN || ""
 const ALBY_URL  = process.env.ALBY_UR || ""
 
-export const createInvoice = async (invoicePayload: IInvoiceData, transactionId: string): Promise<IInvoiceResponseData> => {
-
+export const createInvoice = async (invoicePayload: IInvoiceData, transactionId: number): Promise<IInvoiceResponseData> => {
+  const connection = await getFreshConnection();
+  const ServicesTransactionRepo = connection.getRepository(ServiceTransactions);
   const baseURL = `${ALBY_URL}/invoices`
 
   const headers = {
@@ -41,6 +44,17 @@ export const createInvoice = async (invoicePayload: IInvoiceData, transactionId:
       expiresAt: response.data.expires_at
     }
     // update the transaction with invoice payment hash 
+
+    await ServicesTransactionRepo
+    .createQueryBuilder()
+    .update(ServiceTransactions)
+    .set({
+      invoiceRequest: payload,
+      invoiceResponse: responseData,
+      paymentHash: responseData.paymentHash
+    })
+    .where({ id: transactionId })
+    .execute();
 
     return responseData
 

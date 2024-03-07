@@ -2,7 +2,7 @@
 
 export interface NewTransactionDto {
   serviceUuid: string,
-  proovider: string,
+  provider: string,
   amount: number,
   payerName: string,
   payerEmail: string,

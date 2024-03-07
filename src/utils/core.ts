@@ -59,6 +59,18 @@ export const getOrderEntityReferenceNumber = (entity: {id: number}) => {
   return `${10000 + entity.id}`
 }
 
+export const generateUniqueReference = (length: number) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
+  return result;
+}
+
 
 export const handleAxiosRequestError = (error: AxiosError) => {
   if (error.response) {

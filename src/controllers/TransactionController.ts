@@ -1,6 +1,8 @@
 
 import { Body, Get, Post, Request, Route, Tags } from "tsoa";
 import { NewServiceDto } from "../dto/NewServiceDto";
+import { NewTransactionDto } from "../dto/NewTransactionDto";
+import { IInvoiceResponseData } from "../interfaces/IInvoiceResponseData";
 import { IServerResponse } from "../interfaces/IServerResponse";
 import { ServiceResponseData } from "../interfaces/ServiceResponseData";
 import * as TransactionService from "../services/transactionService";
@@ -40,6 +42,22 @@ public async handleFetchService(@Request() req: any,
 return resData
 
 }
+
+@Post('/new-service-transaction')
+public async handleNewTransaction(@Body() reqBody: NewTransactionDto): Promise<IServerResponse<IInvoiceResponseData>>{
+  // check that subscription exist
+  // phoone number create 
+  
+  const serviceExist = await TransactionService.singleTransfromService(reqBody.serviceUuid)
+
+  const processTransaction = await TransactionService.processNewTrasnactionService(reqBody, serviceExist.name, serviceExist.serviceId) 
+  const resData :  IServerResponse<IInvoiceResponseData>  ={
+      status: true,
+      data: processTransaction
+  }
+  return resData
+}
+
 
 
 }

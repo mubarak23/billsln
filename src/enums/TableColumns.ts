@@ -11,6 +11,7 @@ export enum ServiceColumns {
 export enum ServiceTransactionColumns {
   UUID = "uuid",
   SERVICE_ID = "service_id",
+  SERVICE_NAME = "service_name",
   PROVIDER = "provider",
   PAYER_EMAIL = "payer_email",
   PAYER_NAME = "payer_name",

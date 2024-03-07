@@ -21,6 +21,9 @@ export class ServiceTransactions extends DefualtEntity {
   @Column({ name: ServiceTransactionColumns.SERVICE_ID, nullable: false })
   serviceId: number;
 
+  @Column({ name: ServiceTransactionColumns.SERVICE_NAME, nullable: false })
+  serviceName: string;
+
   @Column({ name: ServiceTransactionColumns.PROVIDER, nullable: false })
   provider: string;
 
@@ -29,8 +32,6 @@ export class ServiceTransactions extends DefualtEntity {
 
   @Column({ name: ServiceTransactionColumns.DESCRIPTION, nullable: true})
   description: string;
-
-
 
   @Column({ name: ServiceTransactionColumns.PAYER_NAME, nullable: true})
   payerName: string;
@@ -64,12 +65,13 @@ export class ServiceTransactions extends DefualtEntity {
   })
   isSoftDeleted: boolean;
 
-  initialize(amount: number, satsAmount: number, serviceId: number, 
+  initializeNewServiceTransaction(amount: number, satsAmount: number, serviceId: number, 
     provider: string, description: string, payerName: string, payerEmail: string,
-    reference: string){
+    reference: string, serviceName: string){
     const now = utcNow();
     this.uuid = uuidv4();
     this.serviceId = serviceId;
+    this.serviceName = serviceName;
     this.amount = amount;
     this.satsAmount = satsAmount;
     this.description = description;

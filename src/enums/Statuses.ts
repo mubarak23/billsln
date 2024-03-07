@@ -8,4 +8,10 @@ export enum TransactionStatuses {
 }
 
 
+export enum ServicesEnum {
+  DATA = 'data',
+  POWER = 'power',
+  AIRTIME = 'airtime'
+}
+
 
