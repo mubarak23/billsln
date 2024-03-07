@@ -135,3 +135,59 @@ export const transformIncomingInvoice = async (page: number, items: number): Pro
 
 }
 
+export const fetchInvoiceDetails = async (paymentHash: string): Promise<InvoiceData> => {
+
+  const baseURL = `${ALBY_URL}/invoices/${paymentHash}`
+
+  const headers = {
+    'Authorization': `Bearer ${ALBY_TOKEN}`,
+    'content-type': 'application/json',
+    'cache-control': 'no-cache'
+  }
+
+  try {
+   
+    const response: AxiosResponse<any> = await axios.get(baseURL, {
+      headers
+    })
+
+    const invoice = response.data
+    const transformInvoice : InvoiceData = {
+      amount: invoice.amount,
+      comment: invoice.comment,
+      currency: invoice.currency,
+      memo: invoice.memo,
+      description: invoice.description,
+      descriptionHash: invoice.descriptionHash,
+      identifier: invoice.identifier,
+      expiry: invoice.expiry,
+      keySendMessage: invoice.keysend_message,
+      createdAt: invoice.created_at,
+      creationDate: invoice.creation_date,
+      payerName: invoice.payer_name,
+      preImage: invoice.preimage,
+      paymentHash: invoice.payment_hash,
+      paymentRequest: invoice.payment_request,
+      payerPubkey: invoice.payer_pubkey,
+      rHashStr: invoice.r_hash_str,
+      settled: invoice.settled,
+      state: invoice.state,
+      settledAt: invoice.settled_at,
+      type: invoice.type,
+      value: invoice.value
+        }
+
+    return transformInvoice
+
+  } catch(e) {
+    const errorMessage = Utils.handleAxiosRequestError(e)
+    console.log(`e handleAxiosRequestError message: `, errorMessage)
+    console.log(`e message: `, e.message)
+    console.log(e.stack)
+
+    throw new ServerError('An error occurred with our payment provider. Please try again at a later time.')
+  }
+
+}
+
+

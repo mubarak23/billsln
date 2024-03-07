@@ -44,6 +44,9 @@ export class ServiceTransactions extends DefualtEntity {
   @Column({ name: ServiceTransactionColumns.METER_NUMBER, nullable: true})
   meterNumber: string;
 
+  @Column({ name: ServiceTransactionColumns.PAYMENT_HASH, nullable: true})
+  paymentHash: string;
+
   @Column({type: 'json', name: ServiceTransactionColumns.INVOICE_REQUEST, nullable: true })
   invoiceRequest: object
 

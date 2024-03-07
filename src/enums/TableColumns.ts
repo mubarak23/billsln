@@ -22,6 +22,7 @@ export enum ServiceTransactionColumns {
   DESCRIPTION = "description",
   REFERENCE = "reference",
   STATUS = "status",
+  PAYMENT_HASH = "payment_hash",
   INVOICE_RESPONSE = "invoice_response", 
   IS_SOFT_DELETED = "is_soft_delete"
 }
