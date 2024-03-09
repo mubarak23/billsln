@@ -28,6 +28,17 @@ export enum ServiceTransactionColumns {
   IS_SOFT_DELETED = "is_soft_delete"
 }
 
+export enum AlbyWebhookColumns {
+  UUID = "uuid",
+  ALBY_ID = "alby_id",
+  DESCRIPTION = "description",
+  URL = "url",
+  FILTER_TYPE = "filter_type",
+  WEBHOOK_REQUEST = "webhook_request",
+  WEBHOOK_RESPONSE = "webhook_response",
+  IS_SOFT_DELETED = "is_soft_delete",
+}
+
 
 export const TableColumns: any = {
   ID: "id",

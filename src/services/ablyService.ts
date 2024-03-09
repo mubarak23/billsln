@@ -1,6 +1,8 @@
 
 import axios, { AxiosResponse } from "axios"
 import { getFreshConnection } from "../db"
+import { NewWebhookDto } from "../dto/NewWebhookDto"
+import { AlbyWebhooks } from "../entity/AlbyWebhook"
 import { ServiceTransactions } from "../entity/ServiceTransaction"
 import { IInvoiceData } from "../interfaces/IInvoiceData"
 import { IInvoiceResponseData } from "../interfaces/IInvoiceResponseData"
@@ -104,6 +106,61 @@ export const IncomingInvoices = async (page: number, items: number): Promise<any
   }
 
 }
+
+export const ProcessNewWebhook = async (requestPayload: NewWebhookDto): Promise<any> => {
+ 
+  const connection = await getFreshConnection();
+  const AlbyWebhookRepo = connection.getRepository(AlbyWebhooks);
+  const baseURL = `${ALBY_URL}/webhook_endpoints`
+
+  const headers = {
+    'Authorization': `Bearer ${ALBY_TOKEN}`,
+    'content-type': 'application/json',
+    'cache-control': 'no-cache'
+  }
+
+  let saveNewWebhook = new AlbyWebhooks().initializeNewWebhook(requestPayload.description, requestPayload.url)
+  saveNewWebhook = await AlbyWebhookRepo.save(saveNewWebhook);
+  
+  const payload = {
+    description: requestPayload.description,
+    url: requestPayload.url,
+    filter_type: ["invoice.incoming.settled", "invoice.outgoing.settled"]
+  }
+  try {
+   
+    const response: AxiosResponse<any> = await axios.post(baseURL, payload, {
+      headers
+    })
+
+    const responseData = response.data;
+
+
+    await AlbyWebhookRepo
+    .createQueryBuilder()
+    .update(AlbyWebhooks)
+    .set({
+      albyId: responseData.id,
+      webhookRequest: payload,
+      webhookResponse: responseData,
+    })
+    .where({ id: saveNewWebhook })
+    .execute();
+
+    return response.data;
+
+  } catch(e) {
+    const errorMessage = Utils.handleAxiosRequestError(e)
+    console.log(`e handleAxiosRequestError message: `, errorMessage)
+    console.log(`e message: `, e.message)
+    console.log(e.stack)
+
+    throw new ServerError('An error occurred with our payment provider. Please try again at a later time.')
+  }
+
+}
+
+
 
 
 export const transformIncomingInvoice = async (page: number, items: number): Promise <InvoiceData[]> => {

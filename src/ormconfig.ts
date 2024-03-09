@@ -1,4 +1,7 @@
+import path from "path";
 import { ConnectionOptions } from "typeorm";
+
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 
 
